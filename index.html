@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<BODY onload="loadPage()">
+    <div comp_type="myDigitalComponent" class="server_binding"
+            id="mydiv" show_param="mydiv" show_function="myCallback"
+            range="132" address="0" type="1" length="1"
+            text="Hola">
+    </div>
+    <DIV id="wrap">
+    <div id="main" onclick="hideMenu()" style="width: 1420px; height: 880px;">
+    <div comp_type="myDigitalComponent" class="server_binding" id="mydiv"
+   show_param="mydiv" show_function="myCallback"
+    range="132" address="0" type="1" length="1"
+    onclick="sendDigitalRequest(this)" value="0"
+    style="position:absolute; left:389px; top:242px; width:84px;
+   height:84px; border:1px solid red;line-height: 84px;">
+    ON
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
+        </script>
+
+        <script src="./script.js">
+        </script>
+
+        <script type="text/javascript" src="/js/utility.js">
+        </script> 
+
+        <script type="text/javascript" src="/js/storage.js"> 
+        </script> 
+
+        <script type="text/javascript" src="/js/bigint.js"> 
+        </script>
+
+        <script type="text/javascript" src="/js/encrypt.js"> 
+        </script>
+
+        <script type="text/javascript" src="/js/ajax.js"> 
+        </script> 
+
+        <script type="text/javascript" src="/js/binding.js"> 
+        </script>
+
+
+        <script type="text/javascript">
+            var myCallback = function myCallback() {
+            var id = this.m_sShowParam; //get id
+            var newValue = parseInt(this.m_sValue, 16); // get newValue
+            document.getElementById(id).value = newValue;// recode the newValue
+            //response
+            if (newValue == 0) {
+            $("#"+id).html("ON"); //do your actions
+            } else {
+            $("#"+id).html("OFF"); //do your actions
+            }};
+            function sendDigitalRequest(obj) {
+            var id = obj.id;
+            var oRequest = new DBRequest(obj);
+            //set value
+            if (obj.value) {
+            oRequest.SetValue("00");
+            } else {
+            oRequest.SetValue("01");
+            }
+            //send request
+            if (oRequest.SetQuery()) {
+                setInterval(checkResult, 1000, oRequest);
+ }
+ }
+        </script>
+    </div>
+    </DIV>
+ </BODY>
